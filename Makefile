@@ -56,11 +56,11 @@ test:
 	@grub-file --is-x86-multiboot $(OUTPUT_NAME) || (echo $(FAIL_MSG) grub-file $$?; exit 1)
 
 clean:
-	@rm $(OBJS)/*
-	@echo $(RM_MSG) $(OBJS)/\*
+	@rm -r $(OBJS)
+	@echo $(RM_MSG) $(OBJS)/
 
-	@rm $(OUT_DIR)/*
-	@echo $(RM_MSG) $(OUT_DIR)/\*
+	@rm -r $(OUT_DIR)
+	@echo $(RM_MSG) $(OUT_DIR)/
 
 qemu: all
 	@$(QEMU) -kernel $(OUTPUT_NAME)
