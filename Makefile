@@ -1,3 +1,5 @@
+.PHONY: all clean
+
 ASFLAGS			=
 CFREEFLAGS		= -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 CXXFREEFLAGS	= -std=c++14 -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
@@ -50,8 +52,6 @@ kernel:
 
 test:
 	@grub-file --is-x86-multiboot $(OUTPUT_NAME) || (echo $(FAIL_MSG) grub-file $$?; exit 1)
-
-.PHONY: clean
 
 clean:
 	@rm $(OBJS)/*
