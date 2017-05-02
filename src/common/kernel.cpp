@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-// This is the tutorial from the OSDev website. I did not write this
+// This is part of the tutorial from the OSDev website. I did not fully write this
 
 /* Check if the compiler thinks we are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -79,6 +79,13 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) {
 }
 
 void terminal_putchar(char c) {
+	if (c == '\n') {
+		if (++terminal_row == VGA_HEIGHT) {
+			terminal_row = 0;
+		}
+		terminal_column = 0;
+		return;
+	}
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
@@ -101,6 +108,5 @@ void kernel_main(void) {
 	/* Initialize terminal interface */
 	terminal_initialize();
 
-	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, World!\n");
+	terminal_writestring("Hello, World!\nGoodbye, world!\nHello, world!\nGoodbye, world!\n");
 }

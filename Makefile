@@ -3,10 +3,12 @@
 ASFLAGS			=
 CFREEFLAGS		= -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 CXXFREEFLAGS	= -std=c++14 -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+ARCHITECTURE	= i386
 
 SRC_DIR			= src
 OBJS			= $(SRC_DIR)/obj
-ARCH			= $(SRC_DIR)/arch/i386
+ARCH			= $(SRC_DIR)/arch/$(ARCHITECTURE)
+COMMON_DIR		= $(SRC_DIR)/common
 OUT_DIR			= out
 
 CROSS_BIN		= cross/bin
@@ -42,11 +44,11 @@ kernel:
 	@$(AS) $(ARCH)/boot.s -o $(OBJS)/boot.o $(ASFLAGS)
 	@echo $(AS_MSG) $(ARCH)/boot.s
 
-	@$(CXX) -c $(ARCH)/kernel.cpp -o $(OBJS)/kernel.o $(CXXFREEFLAGS)
-	@echo $(CXX_MSG) $(ARCH)/kernel.cpp
+	@$(CXX) -c $(COMMON_DIR)/kernel.cpp -o $(OBJS)/kernel.o $(CXXFREEFLAGS)
+	@echo $(CXX_MSG) $(COMMON_DIR)/kernel.cpp
 
 	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJS)/boot.o $(OBJS)/kernel.o -lgcc
-	@echo $(CC_MSG) $(ARCH)/boot.o $(ARCH)/kernel.o
+	@echo $(CC_MSG) $(OBJS)/boot.o $(OBJS)/kernel.o
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)
 
@@ -60,5 +62,5 @@ clean:
 	@rm $(OUT_DIR)/*
 	@echo $(RM_MSG) $(OUT_DIR)/\*
 
-qemu:
+qemu: all
 	@$(QEMU) -kernel $(OUTPUT_NAME)
