@@ -34,22 +34,28 @@ class Console {
 		uint8_t terminal_color;
 		uint16_t* terminal_buffer;
 
-		static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
+		inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
+            return fg | bg << 4;
+        }
 
-		static inline uint16_t vga_entry(unsigned char uc, uint8_t color);
+		inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
+            return (uint16_t) uc | (uint16_t) color << 8;
+        }
+
 
 		size_t strlen(const char* str);
 
 
-		void terminal_initialize(void);
 
-		void terminal_setcolor(uint8_t color);
+		void set_color(uint8_t color);
 
-		void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
 
-		void terminal_putchar(char c);
+		void putchar(char c);
 
-		void terminal_write(const char* data, size_t size);
+		void write(const char* data, size_t size);
 
-		void terminal_writestring(const char* data);
-}
+		void writestring(const char* data);
+	private:
+		void initialize(void);
+		void putentryat(char c, uint8_t color, size_t x, size_t y);
+};

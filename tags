@@ -1,24 +1,26 @@
 !_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
-ARCH	/home/dmitry/work/watos/Makefile	/^ARCH			= $(SRC_DIR)\/arch\/$(ARCHITECTURE)$/;"	m	language:Make
-ARCHITECTURE	/home/dmitry/work/watos/Makefile	/^ARCHITECTURE	= i386$/;"	m	language:Make
-AS	/home/dmitry/work/watos/Makefile	/^AS				= $(CROSS_BIN)\/i686-elf-as$/;"	m	language:Make
-ASFLAGS	/home/dmitry/work/watos/Makefile	/^ASFLAGS			=$/;"	m	language:Make
-AS_MSG	/home/dmitry/work/watos/Makefile	/^AS_MSG			= " AS	"$/;"	m	language:Make
-CC	/home/dmitry/work/watos/Makefile	/^CC				= $(CROSS_BIN)\/i686-elf-gcc$/;"	m	language:Make
-CC_MSG	/home/dmitry/work/watos/Makefile	/^CC_MSG			= " CC	"$/;"	m	language:Make
-CFREEFLAGS	/home/dmitry/work/watos/Makefile	/^CFREEFLAGS		= -std=gnu99 -ffreestanding -O2 -Wall -Wextra$/;"	m	language:Make
-COMMON_DIR	/home/dmitry/work/watos/Makefile	/^COMMON_DIR		= $(SRC_DIR)\/common$/;"	m	language:Make
-CROSS_BIN	/home/dmitry/work/watos/Makefile	/^CROSS_BIN		= cross\/bin$/;"	m	language:Make
-CXX	/home/dmitry/work/watos/Makefile	/^CXX				= $(CROSS_BIN)\/i686-elf-g++$/;"	m	language:Make
-CXXFREEFLAGS	/home/dmitry/work/watos/Makefile	/^CXXFREEFLAGS	= -std=c++14 -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti$/;"	m	language:Make
-CXX_MSG	/home/dmitry/work/watos/Makefile	/^CXX_MSG			= " CXX	"$/;"	m	language:Make
-FAIL_MSG	/home/dmitry/work/watos/Makefile	/^FAIL_MSG		= " FAIL	"$/;"	m	language:Make
-INFO_MSG	/home/dmitry/work/watos/Makefile	/^INFO_MSG		= " INFO	"$/;"	m	language:Make
-MKDIR_MSG	/home/dmitry/work/watos/Makefile	/^MKDIR_MSG		= " MKDIR	"$/;"	m	language:Make
-OBJS	/home/dmitry/work/watos/Makefile	/^OBJS			= $(SRC_DIR)\/obj$/;"	m	language:Make
-OUTPUT_NAME	/home/dmitry/work/watos/Makefile	/^OUTPUT_NAME		= $(OUT_DIR)\/myos.bin$/;"	m	language:Make
-OUT_DIR	/home/dmitry/work/watos/Makefile	/^OUT_DIR			= out$/;"	m	language:Make
-QEMU	/home/dmitry/work/watos/Makefile	/^QEMU			= qemu-system-i386$/;"	m	language:Make
-QEMU_MSG	/home/dmitry/work/watos/Makefile	/^QEMU_MSG		= " QEMU	"$/;"	m	language:Make
-RM_MSG	/home/dmitry/work/watos/Makefile	/^RM_MSG			= " RM	"$/;"	m	language:Make
-SRC_DIR	/home/dmitry/work/watos/Makefile	/^SRC_DIR			= src$/;"	m	language:Make
+ARCH	/home/dmitry/work/OS/watos/Makefile	/^ARCH			= $(SRC_DIR)\/arch\/$(ARCHITECTURE)$/;"	m	language:Make
+ARCHITECTURE	/home/dmitry/work/OS/watos/Makefile	/^ARCHITECTURE	= i386$/;"	m	language:Make
+AS	/home/dmitry/work/OS/watos/Makefile	/^AS				= $(CROSS_BIN)\/i686-elf-as$/;"	m	language:Make
+ASFLAGS	/home/dmitry/work/OS/watos/Makefile	/^ASFLAGS			=$/;"	m	language:Make
+AS_MSG	/home/dmitry/work/OS/watos/Makefile	/^AS_MSG			= " AS	"$/;"	m	language:Make
+CC	/home/dmitry/work/OS/watos/Makefile	/^CC				= $(CROSS_BIN)\/i686-elf-gcc$/;"	m	language:Make
+CC_MSG	/home/dmitry/work/OS/watos/Makefile	/^CC_MSG			= " CC	"$/;"	m	language:Make
+CFREEFLAGS	/home/dmitry/work/OS/watos/Makefile	/^CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99$/;"	m	language:Make
+COMMONFREEFLAGS	/home/dmitry/work/OS/watos/Makefile	/^COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR)\/drivers -I$(SRC_DIR)\/common -I$(SRC_DIR)\/arch\/$(ARCHITECTURE)$/;"	m	language:Make
+COMMON_DIR	/home/dmitry/work/OS/watos/Makefile	/^COMMON_DIR		= $(SRC_DIR)\/common$/;"	m	language:Make
+CROSS_BIN	/home/dmitry/work/OS/watos/Makefile	/^CROSS_BIN		= cross\/bin$/;"	m	language:Make
+CXX	/home/dmitry/work/OS/watos/Makefile	/^CXX				= $(CROSS_BIN)\/i686-elf-g++$/;"	m	language:Make
+CXXFREEFLAGS	/home/dmitry/work/OS/watos/Makefile	/^CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti$/;"	m	language:Make
+CXX_MSG	/home/dmitry/work/OS/watos/Makefile	/^CXX_MSG			= " CXX	"$/;"	m	language:Make
+DRIVERS_DIR	/home/dmitry/work/OS/watos/Makefile	/^DRIVERS_DIR		= $(SRC_DIR)\/drivers$/;"	m	language:Make
+FAIL_MSG	/home/dmitry/work/OS/watos/Makefile	/^FAIL_MSG		= " FAIL	"$/;"	m	language:Make
+INFO_MSG	/home/dmitry/work/OS/watos/Makefile	/^INFO_MSG		= " INFO	"$/;"	m	language:Make
+MKDIR_MSG	/home/dmitry/work/OS/watos/Makefile	/^MKDIR_MSG		= " MKDIR	"$/;"	m	language:Make
+OBJS	/home/dmitry/work/OS/watos/Makefile	/^OBJS			= $(SRC_DIR)\/obj$/;"	m	language:Make
+OUTPUT_NAME	/home/dmitry/work/OS/watos/Makefile	/^OUTPUT_NAME		= $(OUT_DIR)\/myos.bin$/;"	m	language:Make
+OUT_DIR	/home/dmitry/work/OS/watos/Makefile	/^OUT_DIR			= out$/;"	m	language:Make
+QEMU	/home/dmitry/work/OS/watos/Makefile	/^QEMU			= qemu-system-i386$/;"	m	language:Make
+QEMU_MSG	/home/dmitry/work/OS/watos/Makefile	/^QEMU_MSG		= " QEMU	"$/;"	m	language:Make
+RM_MSG	/home/dmitry/work/OS/watos/Makefile	/^RM_MSG			= " RM	"$/;"	m	language:Make
+SRC_DIR	/home/dmitry/work/OS/watos/Makefile	/^SRC_DIR			= src$/;"	m	language:Make
