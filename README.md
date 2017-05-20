@@ -1,1 +1,3 @@
-# os
+# WatOS
+
+Welcome to WatOS!
