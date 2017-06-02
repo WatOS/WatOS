@@ -3,7 +3,7 @@
 ARCHITECTURE	= i386
 
 SRC_DIR			= src
-OBJS			= $(SRC_DIR)/obj
+OBJ_DIR			= $(SRC_DIR)/obj
 ARCH			= $(SRC_DIR)/arch/$(ARCHITECTURE)
 COMMON_DIR		= $(SRC_DIR)/common
 DRIVERS_DIR		= $(SRC_DIR)/drivers
@@ -31,33 +31,35 @@ FAIL_MSG		= " FAIL	"
 
 OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 
+# --------
+
 all: dirs console kernel test
 
 dirs: obj_dir out_dir
 
 obj_dir:
-	@mkdir -p $(OBJS)
-	@echo $(MKDIR_MSG) $(OBJS)
+	@mkdir -p $(OBJ_DIR)
+	@echo $(MKDIR_MSG) $(OBJ_DIR)
 
 out_dir:
 	@mkdir -p $(OUT_DIR)
 	@echo $(MKDIR_MSG) $(OUT_DIR)
 
 console:
-	@$(CXX) -c $(DRIVERS_DIR)/Console.cpp -o $(OBJS)/Console.o $(CXXFREEFLAGS)
+	@$(CXX) -c $(DRIVERS_DIR)/Console.cpp -o $(OBJ_DIR)/Console.o $(CXXFREEFLAGS)
 	@echo $(CXX_MSG) $(DRIVERS_DIR)/Console.cpp
 
 kernel: console
-	@mkdir -p $(OBJS)
+	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OUT_DIR)
-	@$(AS) $(ARCH)/boot.s -o $(OBJS)/boot.o $(ASFLAGS)
+	@$(AS) $(ARCH)/boot.s -o $(OBJ_DIR)/boot.o $(ASFLAGS)
 	@echo $(AS_MSG) $(ARCH)/boot.s
 
-	@$(CXX) -c $(COMMON_DIR)/Kernel.cpp -o $(OBJS)/Kernel.o $(CXXFREEFLAGS)
+	@$(CXX) -c $(COMMON_DIR)/Kernel.cpp -o $(OBJ_DIR)/Kernel.o $(CXXFREEFLAGS)
 	@echo $(CXX_MSG) $(COMMON_DIR)/Kernel.cpp
 
-	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJS)/boot.o $(OBJS)/Kernel.o $(OBJS)/Console.o  -lgcc
-	@echo $(CC_MSG) $(OBJS)/boot.o $(OBJS)/Kernel.o
+	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJ_DIR)/boot.o $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/Console.o  -lgcc
+	@echo $(CC_MSG) $(OBJ_DIR)/boot.o $(OBJ_DIR)/Kernel.o
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)
 
@@ -65,8 +67,8 @@ test:
 	@grub-file --is-x86-multiboot $(OUTPUT_NAME) || (echo $(FAIL_MSG) grub-file $$?; exit 1)
 
 clean:
-	@rm -r $(OBJS)
-	@echo $(RM_MSG) $(OBJS)/
+	@rm -r $(OBJ_DIR)
+	@echo $(RM_MSG) $(OBJ_DIR)/
 
 	@rm -r $(OUT_DIR)
 	@echo $(RM_MSG) $(OUT_DIR)/

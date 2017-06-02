@@ -29,7 +29,8 @@
 .section .bss
 .align 16
 stack_bottom:
-.skip 16384 # 16 KiB
+#.skip 16384 # 16 KiB
+.skip 32768 # 32 KiB
 stack_top:
 
 # The linker script specifies _start as the entry point to the kernel and the
