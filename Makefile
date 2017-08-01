@@ -1,13 +1,20 @@
-.PHONY: all clean
+# Makefile for WatOS.
+# By Dmitry Kudriavtsev. Some rights reserved
+
+# Variables
+
+.PHONY: all clean qemu
 
 ARCHITECTURE	= i386
 
-SRC_DIR			= src
+SYSROOT			= sysroot
+USR_DIR			= $(SYSROOT)/usr
+SRC_DIR			= $(SYSROOT)/usr/src
 OBJ_DIR			= $(SRC_DIR)/obj
 ARCH			= $(SRC_DIR)/arch/$(ARCHITECTURE)
 COMMON_DIR		= $(SRC_DIR)/common
 DRIVERS_DIR		= $(SRC_DIR)/drivers
-OUT_DIR			= out
+OUT_DIR			= $(SYSROOT)/boot
 
 CROSS_BIN		= cross/bin
 CC				= $(CROSS_BIN)/i686-elf-gcc
@@ -28,37 +35,39 @@ QEMU_MSG		= " QEMU	"
 RM_MSG			= " RM	"
 INFO_MSG		= " INFO	"
 FAIL_MSG		= " FAIL	"
+NYI_MSG			= " NYI 	"
 
 OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 
-# --------
+# ----------- #
+# Compilation #
+# ----------- #
 
-all: dirs console kernel test
+OBJS	= $(COMMON_DIR)/Kernel.o $(COMMON_DIR)/kstdlib.o $(DRIVERS_DIR)/Console.o
+OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o
 
-dirs: obj_dir out_dir
+%.o: %.cpp
+	@$(CXX) -c $< -o $(OBJ_DIR)/$(shell basename "$@") $(DEPS) $(CXXFREEFLAGS)
+	@echo $(CXX_MSG) $<
 
-obj_dir:
-	@mkdir -p $(OBJ_DIR)
-	@echo $(MKDIR_MSG) $(OBJ_DIR)
+%/:
+	@mkdir -p $@
+	@echo $(MKDIR_MSG) $@
 
-out_dir:
-	@mkdir -p $(OUT_DIR)
-	@echo $(MKDIR_MSG) $(OUT_DIR)
+all: image userspace test
 
-console:
-	@$(CXX) -c $(DRIVERS_DIR)/Console.cpp -o $(OBJ_DIR)/Console.o $(CXXFREEFLAGS)
-	@echo $(CXX_MSG) $(DRIVERS_DIR)/Console.cpp
+userspace:
+	@echo $(NYI_MSG) userspace not yet implemented
 
-kernel: console
+dirs: $(OBJ_DIR)/ $(OUT_DIR)/
+
+image: dirs $(OBJS)
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OUT_DIR)
 	@$(AS) $(ARCH)/boot.s -o $(OBJ_DIR)/boot.o $(ASFLAGS)
 	@echo $(AS_MSG) $(ARCH)/boot.s
 
-	@$(CXX) -c $(COMMON_DIR)/Kernel.cpp -o $(OBJ_DIR)/Kernel.o $(CXXFREEFLAGS)
-	@echo $(CXX_MSG) $(COMMON_DIR)/Kernel.cpp
-
-	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJ_DIR)/boot.o $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/Console.o  -lgcc
+	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJ_DIR)/boot.o $(OBJS_K) -lgcc
 	@echo $(CC_MSG) $(OBJ_DIR)/boot.o $(OBJ_DIR)/Kernel.o
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)

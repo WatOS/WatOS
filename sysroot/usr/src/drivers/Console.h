@@ -3,6 +3,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "../common/kstdlib.h"
+
+#define VGA_ENTRY_POINT ((void *) 0xB8000)
+
 namespace Devices {
 	/* Hardware text mode color constants. */
 	enum vga_color {
@@ -46,14 +50,13 @@ namespace Devices {
 				return (uint16_t) uc | (uint16_t) color << 8;
 			}
 
-			size_t strlen(const char* str);
 			void set_color(uint8_t color);
 			void putchar(char c);
 			void write(const char* data, size_t size);
 			void writestring(const char* data);
 		private:
 			void initialize(void);
+			void flush_buffer(void);
 			void putentryat(char c, uint8_t color, size_t x, size_t y);
 	};
 }
-
