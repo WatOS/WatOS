@@ -23,7 +23,7 @@ AS				= $(CROSS_BIN)/i686-elf-as
 QEMU			= qemu-system-i386
 
 ASFLAGS			=
-COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE)
+COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith
 CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99
 CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti
 
