@@ -3,7 +3,7 @@
 
 # Variables
 
-.PHONY: all clean qemu
+.PHONY: all clean qemu dirs
 
 ARCHITECTURE	= i386
 
@@ -15,6 +15,8 @@ ARCH			= $(SRC_DIR)/arch/$(ARCHITECTURE)
 COMMON_DIR		= $(SRC_DIR)/common
 DRIVERS_DIR		= $(SRC_DIR)/drivers
 OUT_DIR			= $(SYSROOT)/boot
+
+VPATH			= $(COMMON_DIR):$(ARCH):$(DRIVERS_DIR)
 
 CROSS_BIN		= cross/bin
 CC				= $(CROSS_BIN)/i686-elf-gcc
@@ -43,32 +45,31 @@ OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 # Compilation #
 # ----------- #
 
-OBJS	= $(COMMON_DIR)/Kernel.o $(COMMON_DIR)/kstdlib.o $(DRIVERS_DIR)/Console.o
+OBJS	= Kernel.cpp kstdlib.cpp Console.cpp
 OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o
 
-%.o: %.cpp
-	@$(CXX) -c $< -o $(OBJ_DIR)/$(shell basename "$@") $(DEPS) $(CXXFREEFLAGS)
-	@echo $(CXX_MSG) $<
+all: dirs image userspace test
+
+dirs: $(OBJ_DIR)/ $(OUT_DIR)/
+
+%.cpp:
+	@echo $(CXX_MSG) $@
+	$(CXX) -c $@ -o $(OBJ_DIR)/$(@:.cpp=.o) $(DEPS) $(CXXFREEFLAGS)
+
+%.s:
+	@echo $(AS_MSG) $@
+	$(AS) $@ -o $(OBJ_DIR)/$(@:.s=.o) $(ASFLAGS)
 
 %/:
-	@mkdir -p $@
 	@echo $(MKDIR_MSG) $@
-
-all: image userspace test
+	@mkdir -p $@
 
 userspace:
 	@echo $(NYI_MSG) userspace not yet implemented
 
-dirs: $(OBJ_DIR)/ $(OUT_DIR)/
-
-image: dirs $(OBJS)
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OUT_DIR)
-	@$(AS) $(ARCH)/boot.s -o $(OBJ_DIR)/boot.o $(ASFLAGS)
-	@echo $(AS_MSG) $(ARCH)/boot.s
-
-	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJ_DIR)/boot.o $(OBJS_K) -lgcc
+image: $(OBJS)
 	@echo $(CC_MSG) $(OBJ_DIR)/boot.o $(OBJ_DIR)/Kernel.o
+	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJ_DIR)/boot.o $(OBJS_K) -lgcc
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)
 
@@ -76,11 +77,14 @@ test:
 	@grub-file --is-x86-multiboot $(OUTPUT_NAME) || (echo $(FAIL_MSG) grub-file $$?; exit 1)
 
 clean:
-	@rm -r $(OBJ_DIR)
-	@echo $(RM_MSG) $(OBJ_DIR)/
+	@touch $(OBJS)
 
-	@rm -r $(OUT_DIR)
+	@echo $(RM_MSG) $(OBJ_DIR)/
+	@rm -rvf $(OBJ_DIR)
+
 	@echo $(RM_MSG) $(OUT_DIR)/
+	@rm -rvf $(OUT_DIR)
 
 qemu: all
+	@echo $(QEMU_MSG) $(OUTPUT_NAME)
 	@$(QEMU) -kernel $(OUTPUT_NAME)

@@ -1,31 +1,32 @@
 !_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
-ARCH	/home/dmitry/work/watos/Makefile	/^ARCH			= $(SRC_DIR)\/arch\/$(ARCHITECTURE)$/;"	m	language:Make
-ARCHITECTURE	/home/dmitry/work/watos/Makefile	/^ARCHITECTURE	= i386$/;"	m	language:Make
-AS	/home/dmitry/work/watos/Makefile	/^AS				= $(CROSS_BIN)\/i686-elf-as$/;"	m	language:Make
-ASFLAGS	/home/dmitry/work/watos/Makefile	/^ASFLAGS			=$/;"	m	language:Make
-AS_MSG	/home/dmitry/work/watos/Makefile	/^AS_MSG			= " AS	"$/;"	m	language:Make
-CC	/home/dmitry/work/watos/Makefile	/^CC				= $(CROSS_BIN)\/i686-elf-gcc$/;"	m	language:Make
-CC_MSG	/home/dmitry/work/watos/Makefile	/^CC_MSG			= " CC	"$/;"	m	language:Make
-CFREEFLAGS	/home/dmitry/work/watos/Makefile	/^CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99$/;"	m	language:Make
-COMMONFREEFLAGS	/home/dmitry/work/watos/Makefile	/^COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR)\/drivers -I$(SRC_DIR)\/common -I$(SRC_DIR)\/arch\/$(ARCHITECTURE) -Wno-pointer-arith$/;"	m	language:Make
-COMMON_DIR	/home/dmitry/work/watos/Makefile	/^COMMON_DIR		= $(SRC_DIR)\/common$/;"	m	language:Make
-CROSS_BIN	/home/dmitry/work/watos/Makefile	/^CROSS_BIN		= cross\/bin$/;"	m	language:Make
-CXX	/home/dmitry/work/watos/Makefile	/^CXX				= $(CROSS_BIN)\/i686-elf-g++$/;"	m	language:Make
-CXXFREEFLAGS	/home/dmitry/work/watos/Makefile	/^CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti$/;"	m	language:Make
-CXX_MSG	/home/dmitry/work/watos/Makefile	/^CXX_MSG			= " CXX	"$/;"	m	language:Make
-DRIVERS_DIR	/home/dmitry/work/watos/Makefile	/^DRIVERS_DIR		= $(SRC_DIR)\/drivers$/;"	m	language:Make
-FAIL_MSG	/home/dmitry/work/watos/Makefile	/^FAIL_MSG		= " FAIL	"$/;"	m	language:Make
-INFO_MSG	/home/dmitry/work/watos/Makefile	/^INFO_MSG		= " INFO	"$/;"	m	language:Make
-MKDIR_MSG	/home/dmitry/work/watos/Makefile	/^MKDIR_MSG		= " MKDIR	"$/;"	m	language:Make
-NYI_MSG	/home/dmitry/work/watos/Makefile	/^NYI_MSG			= " NYI 	"$/;"	m	language:Make
-OBJS	/home/dmitry/work/watos/Makefile	/^OBJS	= $(COMMON_DIR)\/Kernel.o $(COMMON_DIR)\/kstdlib.o $(DRIVERS_DIR)\/Console.o$/;"	m	language:Make
-OBJS_K	/home/dmitry/work/watos/Makefile	/^OBJS_K	= $(OBJ_DIR)\/Kernel.o $(OBJ_DIR)\/kstdlib.o $(OBJ_DIR)\/Console.o$/;"	m	language:Make
-OBJ_DIR	/home/dmitry/work/watos/Makefile	/^OBJ_DIR			= $(SRC_DIR)\/obj$/;"	m	language:Make
-OUTPUT_NAME	/home/dmitry/work/watos/Makefile	/^OUTPUT_NAME		= $(OUT_DIR)\/myos.bin$/;"	m	language:Make
-OUT_DIR	/home/dmitry/work/watos/Makefile	/^OUT_DIR			= $(SYSROOT)\/boot$/;"	m	language:Make
-QEMU	/home/dmitry/work/watos/Makefile	/^QEMU			= qemu-system-i386$/;"	m	language:Make
-QEMU_MSG	/home/dmitry/work/watos/Makefile	/^QEMU_MSG		= " QEMU	"$/;"	m	language:Make
-RM_MSG	/home/dmitry/work/watos/Makefile	/^RM_MSG			= " RM	"$/;"	m	language:Make
-SRC_DIR	/home/dmitry/work/watos/Makefile	/^SRC_DIR			= $(SYSROOT)\/usr\/src$/;"	m	language:Make
-SYSROOT	/home/dmitry/work/watos/Makefile	/^SYSROOT			= sysroot$/;"	m	language:Make
-USR_DIR	/home/dmitry/work/watos/Makefile	/^USR_DIR			= $(SYSROOT)\/usr$/;"	m	language:Make
+ARCH	/storage/work/OS/WatOS/Makefile	/^ARCH			= $(SRC_DIR)\/arch\/$(ARCHITECTURE)$/;"	m	language:Make
+ARCHITECTURE	/storage/work/OS/WatOS/Makefile	/^ARCHITECTURE	= i386$/;"	m	language:Make
+AS	/storage/work/OS/WatOS/Makefile	/^AS				= $(CROSS_BIN)\/i686-elf-as$/;"	m	language:Make
+ASFLAGS	/storage/work/OS/WatOS/Makefile	/^ASFLAGS			=$/;"	m	language:Make
+AS_MSG	/storage/work/OS/WatOS/Makefile	/^AS_MSG			= " AS	"$/;"	m	language:Make
+CC	/storage/work/OS/WatOS/Makefile	/^CC				= $(CROSS_BIN)\/i686-elf-gcc$/;"	m	language:Make
+CC_MSG	/storage/work/OS/WatOS/Makefile	/^CC_MSG			= " CC	"$/;"	m	language:Make
+CFREEFLAGS	/storage/work/OS/WatOS/Makefile	/^CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99$/;"	m	language:Make
+COMMONFREEFLAGS	/storage/work/OS/WatOS/Makefile	/^COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR)\/drivers -I$(SRC_DIR)\/common -I$(SRC_DIR)\/arch\/$(ARCHITECTURE) -Wno-pointer-arith$/;"	m	language:Make
+COMMON_DIR	/storage/work/OS/WatOS/Makefile	/^COMMON_DIR		= $(SRC_DIR)\/common$/;"	m	language:Make
+CROSS_BIN	/storage/work/OS/WatOS/Makefile	/^CROSS_BIN		= cross\/bin$/;"	m	language:Make
+CXX	/storage/work/OS/WatOS/Makefile	/^CXX				= $(CROSS_BIN)\/i686-elf-g++$/;"	m	language:Make
+CXXFREEFLAGS	/storage/work/OS/WatOS/Makefile	/^CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti$/;"	m	language:Make
+CXX_MSG	/storage/work/OS/WatOS/Makefile	/^CXX_MSG			= " CXX	"$/;"	m	language:Make
+DRIVERS_DIR	/storage/work/OS/WatOS/Makefile	/^DRIVERS_DIR		= $(SRC_DIR)\/drivers$/;"	m	language:Make
+FAIL_MSG	/storage/work/OS/WatOS/Makefile	/^FAIL_MSG		= " FAIL	"$/;"	m	language:Make
+INFO_MSG	/storage/work/OS/WatOS/Makefile	/^INFO_MSG		= " INFO	"$/;"	m	language:Make
+MKDIR_MSG	/storage/work/OS/WatOS/Makefile	/^MKDIR_MSG		= " MKDIR	"$/;"	m	language:Make
+NYI_MSG	/storage/work/OS/WatOS/Makefile	/^NYI_MSG			= " NYI 	"$/;"	m	language:Make
+OBJS	/storage/work/OS/WatOS/Makefile	/^OBJS	= Kernel.cpp kstdlib.cpp Console.cpp$/;"	m	language:Make
+OBJS_K	/storage/work/OS/WatOS/Makefile	/^OBJS_K	= $(OBJ_DIR)\/Kernel.o $(OBJ_DIR)\/kstdlib.o $(OBJ_DIR)\/Console.o$/;"	m	language:Make
+OBJ_DIR	/storage/work/OS/WatOS/Makefile	/^OBJ_DIR			= $(SRC_DIR)\/obj$/;"	m	language:Make
+OUTPUT_NAME	/storage/work/OS/WatOS/Makefile	/^OUTPUT_NAME		= $(OUT_DIR)\/myos.bin$/;"	m	language:Make
+OUT_DIR	/storage/work/OS/WatOS/Makefile	/^OUT_DIR			= $(SYSROOT)\/boot$/;"	m	language:Make
+QEMU	/storage/work/OS/WatOS/Makefile	/^QEMU			= qemu-system-i386$/;"	m	language:Make
+QEMU_MSG	/storage/work/OS/WatOS/Makefile	/^QEMU_MSG		= " QEMU	"$/;"	m	language:Make
+RM_MSG	/storage/work/OS/WatOS/Makefile	/^RM_MSG			= " RM	"$/;"	m	language:Make
+SRC_DIR	/storage/work/OS/WatOS/Makefile	/^SRC_DIR			= $(SYSROOT)\/usr\/src$/;"	m	language:Make
+SYSROOT	/storage/work/OS/WatOS/Makefile	/^SYSROOT			= sysroot$/;"	m	language:Make
+USR_DIR	/storage/work/OS/WatOS/Makefile	/^USR_DIR			= $(SYSROOT)\/usr$/;"	m	language:Make
+VPATH	/storage/work/OS/WatOS/Makefile	/^VPATH			= $(COMMON_DIR):$(ARCH):$(DRIVERS_DIR)$/;"	m	language:Make
