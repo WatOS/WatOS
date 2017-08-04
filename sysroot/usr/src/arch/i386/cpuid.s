@@ -1,9 +1,10 @@
-.section .text
-.globl get_cpuid
-.type get_cpuid, @function
+	.file "cpuid.s"
+	.section .data
+	.globl get_cpuid
+	.type get_cpuid, @function
 
 id_str:
-	db 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.ascii "            " 			# 12 spaces
 
 get_cpuid:
 	mov 	$0x0, %eax
@@ -13,3 +14,5 @@ get_cpuid:
 	mov		%edx, id_str + 8
 	mov		id_str, %eax
 	ret
+
+	.size	get_cpuid, .-get_cpuid

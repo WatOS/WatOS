@@ -11,8 +11,5 @@ extern "C" /* Use C linkage for kernel_main. */
 void kernel_main(void) {
 	Console console;
 
-	char* cpuid = (char*) malloc(13);
-	cpuid = get_cpuid();
-
-	console.writestring(cpuid);
+	console.writestring(get_cpuid());
 }

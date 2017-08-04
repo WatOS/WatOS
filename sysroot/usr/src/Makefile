@@ -3,11 +3,11 @@
 
 # Variables
 
-.PHONY: all clean qemu dirs
+.PHONY: all clean qemu dirs Makefile
 
 ARCHITECTURE	= i386
 
-SYSROOT			= sysroot
+SYSROOT			= ../..
 USR_DIR			= $(SYSROOT)/usr
 SRC_DIR			= $(SYSROOT)/usr/src
 OBJ_DIR			= $(SRC_DIR)/obj
@@ -18,14 +18,14 @@ OUT_DIR			= $(SYSROOT)/boot
 
 VPATH			= $(COMMON_DIR):$(ARCH):$(DRIVERS_DIR)
 
-CROSS_BIN		= cross/bin
+CROSS_BIN		= ../../../cross/bin
 CC				= $(CROSS_BIN)/i686-elf-gcc
 CXX				= $(CROSS_BIN)/i686-elf-g++
 AS				= $(CROSS_BIN)/i686-elf-as
 QEMU			= qemu-system-i386
 
 ASFLAGS			=
-COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith
+COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith
 CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99
 CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti
 
@@ -45,20 +45,26 @@ OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 # Compilation #
 # ----------- #
 
-OBJS	= Kernel.cpp kstdlib.cpp Console.cpp
-OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o
+OBJS	= Kernel.cpp.o kstdlib.cpp.o Console.cpp.o boot.s.o cpuid.s.o
+OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o $(OBJ_DIR)/boot.o
 
 all: dirs image userspace test
 
 dirs: $(OBJ_DIR)/ $(OUT_DIR)/
 
-%.cpp:
-	@echo $(CXX_MSG) $@
-	$(CXX) -c $@ -o $(OBJ_DIR)/$(@:.cpp=.o) $(DEPS) $(CXXFREEFLAGS)
+.SECONDEXPANSION:
 
-%.s:
-	@echo $(AS_MSG) $@
-	$(AS) $@ -o $(OBJ_DIR)/$(@:.s=.o) $(ASFLAGS)
+%.cpp.o: %.cpp
+	@echo $(CXX_MSG) $<
+	@$(CXX) -c $< -o $(OBJ_DIR)/$(@:.cpp.o=.o) $(DEPS) $(CXXFREEFLAGS)
+
+%.c.o: %.c
+	@echo $(CC_MSG) $<
+	@$(CC) -c $< -o $(OBJ_DIR)/$(@:.cpp.o=.o) $(DEPS) $(CFREEFLAGS)
+
+%.s.o: %.s
+	@echo $(AS_MSG) $<
+	@$(AS) $< -o $(OBJ_DIR)/$(@:.s.o=.o) $(ASFLAGS)
 
 %/:
 	@echo $(MKDIR_MSG) $@
@@ -68,8 +74,8 @@ userspace:
 	@echo $(NYI_MSG) userspace not yet implemented
 
 image: $(OBJS)
-	@echo $(CC_MSG) $(OBJ_DIR)/boot.o $(OBJ_DIR)/Kernel.o
-	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJ_DIR)/boot.o $(OBJS_K) -lgcc
+	@echo $(CC_MSG) $(OBJ_DIR)/Kernel.o
+	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJS_K) -lgcc
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)
 
