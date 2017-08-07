@@ -7,12 +7,14 @@ id_str:
 	.ascii "            " 			# 12 spaces
 
 get_cpuid:
+	pusha
 	mov 	$0x0, %eax
 	cpuid
 	mov		%ebx, id_str
 	mov		%ecx, id_str + 4
 	mov		%edx, id_str + 8
 	mov		id_str, %eax
+	popa
 	ret
 
 	.size	get_cpuid, .-get_cpuid
