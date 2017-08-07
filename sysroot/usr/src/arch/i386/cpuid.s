@@ -13,8 +13,8 @@ get_cpuid:
 	mov		%ebx, id_str
 	mov		%ecx, id_str + 4
 	mov		%edx, id_str + 8
-	mov		id_str, %eax
 	popa
+	mov		id_str, %eax
 	ret
 
 	.size	get_cpuid, .-get_cpuid

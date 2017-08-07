@@ -8,13 +8,16 @@
 using namespace Devices;
 
 extern "C" /* Use C linkage for kernel_main. */
-void kernel_main(void) {
+[[noreturn]] void kernel_main(void) {
 	Console console;
 
+	char* cpuid_get = get_cpuid();
 	char* cpuid = (char*) malloc(13);
+	memcpy(cpuid, cpuid_get, 12);
 	cpuid[12] = '\0';
-	cpuid = get_cpuid();
 
 	console.writestring("Hello, world!\n");
 	console.writestring(cpuid);
+
+	while(true);
 }
