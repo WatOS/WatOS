@@ -46,7 +46,7 @@ OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 # ----------- #
 
 OBJS	= Kernel.cpp.o kstdlib.cpp.o Console.cpp.o boot.s.o cpuid.s.o
-OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o $(OBJ_DIR)/boot.o
+OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o $(OBJ_DIR)/boot.o $(OBJ_DIR)/cpuid.o
 
 all: dirs image userspace test
 
