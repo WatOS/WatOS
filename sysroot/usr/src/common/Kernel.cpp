@@ -14,11 +14,11 @@ extern "C" /* Use C linkage for kernel_main. */
 	char* cpuid = get_cpuid();
 
 	char* test = (char*) malloc(13);
-	memcpy(test, id_str, 12);
+	memcpy(test, cpuid, 12);
 	test[12] = '\0';
 
 	console.writestring("Hello, world!\n");
-	console.writestring(test);
+	console.write(test, 12);
 
 	while(true);
 }

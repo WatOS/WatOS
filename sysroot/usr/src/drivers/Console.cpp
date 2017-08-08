@@ -56,6 +56,7 @@ namespace Devices {
 	void Console::write(const char* data, size_t size) {
 		for (size_t i = 0; i < size; i++)
 			putchar(data[i]);
+		flush_buffer();
 	}
 
 	void Console::writestring(const char* data) {

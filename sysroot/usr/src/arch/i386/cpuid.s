@@ -8,11 +8,11 @@ id_str:
 
 get_cpuid:
 	pusha
-	mov 	$0x0, %eax
+	mov 	$0, %eax
 	cpuid
-	mov		%ebx, id_str
-	mov		%ecx, id_str + 4
-	mov		%edx, id_str + 8
+	movl	%ebx, id_str
+	movl	%ecx, id_str + 4
+	movl	%edx, id_str + 8
 	popa
 	mov		id_str, %eax
 	ret

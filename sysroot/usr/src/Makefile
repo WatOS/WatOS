@@ -1,15 +1,24 @@
 # Makefile for WatOS.
 # By Dmitry Kudriavtsev. Some rights reserved
 
-# Variables
-
 .PHONY: all clean qemu dirs Makefile
+
+# ------- #
+# Objects #
+# ------- #
+
+OBJS	= Kernel.o kstdlib.o Console.o boot.o cpuid.o
+
+# --------- #
+# Variables #
+# --------- #
 
 ARCHITECTURE	= i386
 
 SYSROOT			= ../..
 USR_DIR			= $(SYSROOT)/usr
-SRC_DIR			= $(SYSROOT)/usr/src
+#SRC_DIR			= $(SYSROOT)/usr/src
+SRC_DIR			= .
 OBJ_DIR			= $(SRC_DIR)/obj
 ARCH			= $(SRC_DIR)/arch/$(ARCHITECTURE)
 COMMON_DIR		= $(SRC_DIR)/common
@@ -25,7 +34,7 @@ AS				= $(CROSS_BIN)/i686-elf-as
 QEMU			= qemu-system-i386
 
 ASFLAGS			=
-COMMONFREEFLAGS	= -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith
+COMMONFREEFLAGS	= -g -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith
 CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99
 CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti
 
@@ -41,30 +50,27 @@ NYI_MSG			= " NYI 	"
 
 OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 
-# ----------- #
-# Compilation #
-# ----------- #
+# ------------------------- #
+# Compilation - Don't touch #
+# ------------------------- #
 
-OBJS	= Kernel.cpp.o kstdlib.cpp.o Console.cpp.o boot.s.o cpuid.s.o
-OBJS_K	= $(OBJ_DIR)/Kernel.o $(OBJ_DIR)/kstdlib.o $(OBJ_DIR)/Console.o $(OBJ_DIR)/boot.o $(OBJ_DIR)/cpuid.o
+OBJS_K	= $(patsubst %.o,$(OBJ_DIR)/%.o,$(OBJS))
 
 all: dirs image userspace test
 
 dirs: $(OBJ_DIR)/ $(OUT_DIR)/
 
-.SECONDEXPANSION:
-
-%.cpp.o: %.cpp
+%.o: %.cpp
 	@echo $(CXX_MSG) $<
-	@$(CXX) -c $< -o $(OBJ_DIR)/$(@:.cpp.o=.o) $(DEPS) $(CXXFREEFLAGS)
+	@$(CXX) -c $< -o $(OBJ_DIR)/$@ $(CXXFREEFLAGS)
 
-%.c.o: %.c
+%.o: %.c
 	@echo $(CC_MSG) $<
-	@$(CC) -c $< -o $(OBJ_DIR)/$(@:.cpp.o=.o) $(DEPS) $(CFREEFLAGS)
+	@$(CC) -c $< -o $(OBJ_DIR)/$@ $(CFREEFLAGS)
 
-%.s.o: %.s
+%.o: %.s
 	@echo $(AS_MSG) $<
-	@$(AS) $< -o $(OBJ_DIR)/$(@:.s.o=.o) $(ASFLAGS)
+	@$(AS) $< -o $(OBJ_DIR)/$@ $(ASFLAGS)
 
 %/:
 	@echo $(MKDIR_MSG) $@
@@ -75,7 +81,7 @@ userspace:
 
 image: $(OBJS)
 	@echo $(CC_MSG) $(OBJ_DIR)/Kernel.o
-	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) -ffreestanding -O2 -nostdlib $(OBJS_K) -lgcc
+	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) $(COMMONFREEFLAGS) -nostdlib $(OBJS_K) -lgcc
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)
 
@@ -83,8 +89,6 @@ test:
 	@grub-file --is-x86-multiboot $(OUTPUT_NAME) || (echo $(FAIL_MSG) grub-file $$?; exit 1)
 
 clean:
-	@touch $(OBJS)
-
 	@echo $(RM_MSG) $(OBJ_DIR)/
 	@rm -rvf $(OBJ_DIR)
 
@@ -94,3 +98,6 @@ clean:
 qemu: all
 	@echo $(QEMU_MSG) $(OUTPUT_NAME)
 	@$(QEMU) -kernel $(OUTPUT_NAME)
+qemu-debug: all
+	@echo $(QEMU_MSG) [DEBUG] $(OUTPUT_NAME)
+	@$(QEMU) -s -S -kernel $(OUTPUT_NAME)
