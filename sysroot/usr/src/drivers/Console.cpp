@@ -4,7 +4,7 @@ namespace Devices {
 	bool Console::initialized = false;
 
 	Console::Console() {
-		if (!Console::initialized)
+		if (!Console::initialized) // keep a single instance of the cursor, etc.
 			initialize();
 	}
 
