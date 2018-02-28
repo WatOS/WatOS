@@ -16,3 +16,5 @@ char* itoa_base(int num, char* buffer, int base);
 char* itoa(int i, char* c);
 unsigned int uatoi(const char* a);
 int atoi(const char* str);
+
+int kmsg(char* type, uint8_t type_color, char* msg);

@@ -65,6 +65,11 @@ _start:
 	# C++ features such as global constructors and exceptions will require
 	# runtime support to work as well.
 
+	cmpl MAGIC, %eax
+	jne non_mb
+
+	mov %ebx, %edi
+
 	# Enter the high-level kernel. The ABI requires the stack is 16-byte
 	# aligned at the time of the call instruction (which afterwards pushes
 	# the return pointer of size 4 bytes). The stack was originally 16-byte
@@ -90,3 +95,9 @@ _start:
 # Set the size of the _start symbol to the current location '.' minus its start.
 # This is useful when debugging or when you implement call tracing.
 .size _start, . - _start
+
+non_mb:
+	call not_multiboot
+	cli
+2:	hlt
+	jmp 2b
