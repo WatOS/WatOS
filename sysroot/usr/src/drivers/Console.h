@@ -59,4 +59,5 @@ namespace Devices {
 			void flush_buffer(void);
 			void putentryat(char c, uint8_t color, size_t x, size_t y);
 	};
+	static Console kconsole;
 }

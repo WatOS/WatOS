@@ -4,10 +4,11 @@
 #include "drivers/Console.h"
 #include "common/kstdlib.h"
 #include "common/cpu.h"
+#include "arch/i386/multiboot.h"
 
 using namespace Devices;
 
-extern "C" /* Use C linkage for kernel_main. */
+extern "C"
 [[noreturn]] void kernel_main(void) {
 	Console console;
 	console.set_color((uint8_t) 0x0F);

@@ -7,7 +7,7 @@
 # Objects #
 # ------- #
 
-OBJS	= Kernel.o kstdlib.o Console.o boot.o cpuid.o
+OBJS	=  AsmFunctions.o Kernel.o kstdlib.o Console.o boot.o cpuid.o SerialConsole.o
 
 # --------- #
 # Variables #
