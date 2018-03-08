@@ -7,7 +7,7 @@
 # Objects #
 # ------- #
 
-OBJS	=  AsmFunctions.o Kernel.o kstdlib.o Console.o boot.o cpuid.o SerialConsole.o
+OBJS	=  Kernel.o kstdlib.o Console.o boot.o cpuid.o SerialConsole.o
 
 # --------- #
 # Variables #
@@ -34,7 +34,7 @@ AS				= $(CROSS_BIN)/i686-elf-as
 QEMU			= qemu-system-i386
 
 ASFLAGS			=
-COMMONFREEFLAGS	= -g -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith
+COMMONFREEFLAGS	= -g -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith -Wno-write-strings
 CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99
 CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti
 

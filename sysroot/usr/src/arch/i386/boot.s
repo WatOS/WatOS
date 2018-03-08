@@ -64,9 +64,9 @@ _start:
 	# yet. The GDT should be loaded here. Paging should be enabled here.
 	# C++ features such as global constructors and exceptions will require
 	# runtime support to work as well.
-	push %eax
-	cmpl MAGIC, %eax
-	jne non_mb
+	#push %eax
+	#cmpl MAGIC, %eax
+	#jne non_mb
 
 	mov %ebx, %edi
 

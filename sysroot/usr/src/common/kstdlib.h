@@ -13,10 +13,10 @@ void* memcpy(void* dest, void* src, size_t num);
 int pow(int base, unsigned int exponent);
 double pow(double base, unsigned int exponent);
 float pow(float base, unsigned int exponent);
-static void itoa (char *buf, int base, int d);
+void itoa (char *buf, int base, int d);
 unsigned int uatoi(const char* a);
 int atoi(const char* str);
-static void itoa (char *buf, int base, int d);
+void itoa (char *buf, int base, int d);
 void kprintf (const char *format, ...);
 
 void putchar(char);

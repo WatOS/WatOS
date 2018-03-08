@@ -92,7 +92,7 @@ int atoi(const char* str) {
 /* Convert the integer D to a string and save the string in BUF. If
    BASE is equal to 'd', interpret that D is decimal, and if BASE is
    equal to 'x', interpret that D is hexadecimal. */
-static void itoa (char *buf, int base, int d) {
+void itoa (char *buf, int base, int d) {
      char *p = buf;
      char *p1, *p2;
      unsigned long ud = d;

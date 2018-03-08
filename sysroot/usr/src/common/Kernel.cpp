@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include "drivers/Console.h"
+#include "drivers/SerialConsole.h"
 #include "common/kstdlib.h"
 #include "common/cpu.h"
 #include "arch/i386/multiboot.h"
@@ -10,15 +11,16 @@ using namespace Devices;
 
 extern "C"
 [[noreturn]] void kernel_main(void) {
-	Console console;
-	console.set_color((uint8_t) 0x0F);
-	console.write("[", 1);
-	console.set_color((uint8_t) 0x02);
-	console.write("INFO", 4);
-	console.set_color((uint8_t) 0x0F);
-	console.writestring("] Initialized early console\n");
+	kconsole.set_color((uint8_t) 0x0F);
+	kconsole.write("[", 1);
+	kconsole.set_color((uint8_t) 0x02);
+	kconsole.write("INFO", 4);
+	kconsole.set_color((uint8_t) 0x0F);
+	kconsole.writestring("] Initialized early console\n");
 
-	console.writestring("Hello, world!");
+	kconsole.writestring("Hello, world!");
+
+	serial_console.writestring("Hello, world!");
 
 	while(true);
 }
