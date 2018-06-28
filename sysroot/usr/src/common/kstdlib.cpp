@@ -67,28 +67,28 @@ float pow(float base, unsigned int exponent) {
      return i;
 }
 
-unsigned int uatoi(const char* a) {
-     unsigned int ret = 0;
-     size_t a_len = strlen(a);
-     for (size_t i = 0; i < a_len; i++)
-	  ret = ret * 10 + (i - '0');
-     return ret;
+// A simple atoi() function
+int myAtoi(char *str)
+{
+    int res = 0;  // Initialize result
+    int sign = 1;  // Initialize sign as positive
+    int i = 0;  // Initialize index of first digit
+
+    // If number is negative, then update sign
+    if (str[0] == '-')
+    {
+        sign = -1;
+        i++;  // Also update index of first digit
+    }
+
+    // Iterate through all digits and update the result
+    for (; str[i] != '\0'; ++i)
+        res = res*10 + str[i] - '0';
+
+    // Return result with sign
+    return sign*res;
 }
 
-int atoi(const char* str) {
-     int ret = 0;
-     int sign = 1;
-     int i = 0;
-
-     if (str[0] == '-') {
-	  sign = -1; i++;
-     }
-
-     for (; str[i] != '\0'; ++i)
-	  ret = ret*10 + str[i] - '0';
-
-     return sign * ret;
-}
 /* Convert the integer D to a string and save the string in BUF. If
    BASE is equal to 'd', interpret that D is decimal, and if BASE is
    equal to 'x', interpret that D is hexadecimal. */

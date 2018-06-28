@@ -20,7 +20,7 @@ extern "C"
 
 	kconsole.writestring("Hello, world!");
 
-	serial_console.writestring("Hello, world!");
+//	serial_console.writestring("Hello, world!");
 
 	while(true);
 }
