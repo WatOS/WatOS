@@ -18,9 +18,10 @@ extern "C"
 	kconsole.set_color((uint8_t) 0x0F);
 	kconsole.writestring("] Initialized early console\n");
 
-	kconsole.writestring("Hello, world!");
+	kconsole.writestring("Hello, world!\n");
+	kconsole.writestring("This is another string\n");
 
-	serial_console.writestring("Hello, world!");
+	serial_console.writestring("Hello, world!\n");
 
 	while(true);
 }

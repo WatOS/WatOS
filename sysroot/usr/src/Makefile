@@ -60,17 +60,17 @@ all: dirs image userspace test
 
 dirs: $(OBJ_DIR)/ $(OUT_DIR)/
 
-%.o: %.cpp
+obj/%.o: %.cpp
 	@echo $(CXX_MSG) $<
-	@$(CXX) -c $< -o $(OBJ_DIR)/$@ $(CXXFREEFLAGS)
+	@$(CXX) -c $< -o $@ $(CXXFREEFLAGS)
 
-%.o: %.c
+obj/%.o: %.c
 	@echo $(CC_MSG) $<
-	@$(CC) -c $< -o $(OBJ_DIR)/$@ $(CFREEFLAGS)
+	@$(CC) -c $< -o $@ $(CFREEFLAGS)
 
-%.o: %.s
+obj/%.o: %.s
 	@echo $(AS_MSG) $<
-	@$(AS) $< -o $(OBJ_DIR)/$@ $(ASFLAGS)
+	@$(AS) $< -o $@ $(ASFLAGS)
 
 %/:
 	@echo $(MKDIR_MSG) $@
@@ -79,13 +79,13 @@ dirs: $(OBJ_DIR)/ $(OUT_DIR)/
 userspace:
 	@echo $(NYI_MSG) userspace not yet implemented
 
-image: $(OBJS)
+image: $(OBJS_K)
 	@echo $(CC_MSG) $(OBJ_DIR)/Kernel.o
 	@$(CC) -T $(ARCH)/linker.ld -o $(OUTPUT_NAME) $(COMMONFREEFLAGS) -nostdlib $(OBJS_K) -lgcc
 
 	@echo $(INFO_MSG) Finished. Kernel is at $(OUTPUT_NAME)
 
-test:
+test: image
 	@grub-file --is-x86-multiboot $(OUTPUT_NAME) || (echo $(FAIL_MSG) grub-file $$?; exit 1)
 
 clean:
