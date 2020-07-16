@@ -25,7 +25,7 @@ COMMON_DIR		= $(SRC_DIR)/common
 DRIVERS_DIR		= $(SRC_DIR)/drivers
 OUT_DIR			= $(SYSROOT)/boot
 
-VPATH			= $(COMMON_DIR):$(ARCH):$(DRIVERS_DIR)
+VPATH			= $(COMMON_DIR):$(ARCH):$(DRIVERS_DIR):$(subst ' ',':',$(wildcard $(DRIVERS_DIR)/*))
 
 CROSS_BIN		= 
 CC				= i686-elf-gcc
@@ -34,7 +34,7 @@ AS				= i686-elf-as
 QEMU			= qemu-system-i386
 
 ASFLAGS			=
-COMMONFREEFLAGS	= -g -O0 -Wall -Wextra -pedantic -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith -Wno-write-strings -fno-threadsafe-statics
+COMMONFREEFLAGS	= -g -O0 -Wall -Wextra -pedantic -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith -Wno-write-strings -fno-threadsafe-statics -march=i686 -mtune=znver1
 CFREEFLAGS		= $(COMMONFREEFLAGS) -std=c17
 CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++17 -fno-exceptions -fno-rtti
 

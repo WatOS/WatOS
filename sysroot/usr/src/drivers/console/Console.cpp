@@ -11,7 +11,7 @@ namespace Devices {
 	void Console::initialize(void) {
 		terminal_row = 0;
 		terminal_column = 0;
-		terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+		terminal_color = vga_entry_color(LIGHT_GREY, BLACK);
 		terminal_buffer = (uint16_t *) calloc(VGA_HEIGHT*VGA_WIDTH, sizeof(uint16_t));
 		for (size_t y = 0; y < VGA_HEIGHT; y++) {
 			for (size_t x = 0; x < VGA_WIDTH; x++) {
@@ -36,8 +36,8 @@ namespace Devices {
 		move_cursor(terminal_column, terminal_row);
 	}
 
-	void Console::set_color(uint8_t color) {
-		terminal_color = color;
+	void Console::set_color(enum vga_color color) {
+		terminal_color = (uint8_t) color;
 	}
 
 	void Console::putentryat(char c, uint8_t color, size_t x, size_t y) {
@@ -78,6 +78,12 @@ namespace Devices {
 		write(data, strlen(data));
 	}
 
+	void Console::writestring(const char* data, enum vga_color color) {
+		enum vga_color old_color = (enum vga_color) terminal_color;
+		set_color(color);
+		write(data, strlen(data));
+		set_color(old_color);
+	}
 
 	Console kconsole;
 }

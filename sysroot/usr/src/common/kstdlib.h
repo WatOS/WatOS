@@ -3,7 +3,8 @@
 #include "config.h"
 #include <stdint.h>
 #include <stddef.h>
-#include "drivers/Console.h"
+#include <stdarg.h>
+#include "drivers/console/Console.h"
 
 // Linux code (GPL2 / trivial?)
 inline void io_delay(void) {
@@ -26,7 +27,8 @@ unsigned int uatoi(const char *a);
 int atoi(const char *str);
 void itoa(char *buf, int base, int d);
 void kprintf(const char *format, ...);
+void kvprintf(const char *format, va_list args);
 
 void putchar(char);
 
-int kmsg(char *type, uint8_t type_color, char *msg);
+void kmsg(const char *type, enum Devices::vga_color color, const char *msg, ...);

@@ -140,12 +140,9 @@ void itoa (char *buf, int base, int d) {
     }
 }
 
-void kprintf(const char *format, ...) {
-    char **arg = (char **) &format;
+void kvprintf(const char *format, va_list args) {
     int c;
     char buf[20];
-
-    arg++;
 
     while ((c = *format++) != 0) {
 	if (c != '%')
@@ -169,12 +166,12 @@ void kprintf(const char *format, ...) {
 		case 'd':
 		case 'u':
 		case 'x':
-		    itoa(buf, c, *( (int *) arg++));
+		    itoa(buf, c, va_arg(args, int));
 		    p = buf;
 		    goto string;
 		    break;
 		case 's':
-		    p = *arg++;
+		    p = va_arg(args, char *);
 		    if (! p)
 			p = "(null)";
 string:
@@ -186,10 +183,38 @@ string:
 		    break;
 
 		default:
-		    Devices::kconsole.putchar_buf(*( (int *) arg++));
+		    Devices::kconsole.putchar_buf(va_arg(args, int));
 		    break;
 	    }
 	}
     }
     Devices::kconsole.flush_buffer();
+}
+
+void kprintf(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    kvprintf(format, args);
+    va_end(args);
+}
+
+void kmsg(const char *type, enum Devices::vga_color color,
+	const char *msg, ...) {
+    using namespace Devices;
+    kconsole.set_color(WHITE);
+    kconsole.putchar('[');
+    kconsole.writestring(type, color);
+    kconsole.putchar(']');
+    kconsole.putchar(' ');
+    kconsole.set_color(LIGHT_GREY);
+
+    char **arg = (char **) &msg;
+    arg++;
+
+    va_list args;
+    va_start(args, msg);
+    kvprintf(msg, args);
+    va_end(args);
+
+    kconsole.putchar('\n');
 }

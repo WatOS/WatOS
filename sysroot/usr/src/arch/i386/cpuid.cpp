@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "../common/cpu.h"
+#include "cpuid.h"
 
 void cpuid(int op,
 		uint32_t *eax, 
@@ -26,6 +26,14 @@ uint32_t cpuid_vendor(char *vendor) {
 	return max_cpuid;
 }
 
+uint32_t cpuid_max_ext(void) {
+	uint32_t eax, ebx, ecx, edx;
+
+	cpuid(0x80000000, &eax, &ebx, &ecx, &edx);
+
+	return eax;
+}
+
 struct cpuid_info_data cpuid_info(void) {
 	uint32_t eax, ebx, ecx, edx;
 
@@ -34,7 +42,8 @@ struct cpuid_info_data cpuid_info(void) {
 	struct cpuid_info_data i;
 	i.ver_int = eax;
 	i.extra_int = ebx;
-	i.flags_1_int = edx;
+	i.flags_int.flags_1 = edx;
+	i.flags_int.flags_2 = ecx;
 
 	if (i.ver.family == 6 || i.ver.family == 15) {
 		i.real_family = i.ver.ext_family + i.ver.family;
@@ -44,4 +53,11 @@ struct cpuid_info_data cpuid_info(void) {
 		i.real_model = i.ver.model;
 	}
 	return i;
+}
+
+void cpuid_brand(char *brandstr) {
+    uint32_t *brand = (uint32_t *) brandstr;
+    cpuid(0x80000002, brand+0x0, brand+0x1, brand+0x2, brand+0x3);
+    cpuid(0x80000003, brand+0x4, brand+0x5, brand+0x6, brand+0x7);
+    cpuid(0x80000004, brand+0x8, brand+0x9, brand+0xa, brand+0xb);
 }

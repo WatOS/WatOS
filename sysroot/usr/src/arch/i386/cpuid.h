@@ -48,4 +48,6 @@ struct cpuid_info_data {
 };
 
 uint32_t cpuid_vendor(char * result);
+uint32_t cpuid_max_ext(void);
 struct cpuid_info_data cpuid_info(void);
+void cpuid_brand(char *brandstr);
