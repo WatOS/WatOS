@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "../common/kstdlib.h"
+#include "../arch/i386/AsmFunctions.h"
 
 #define VGA_ENTRY_POINT ((void *) 0xB8000)
 
@@ -52,12 +53,15 @@ namespace Devices {
 
 			void set_color(uint8_t color);
 			void putchar(char c);
+			void putchar_buf(char c);
 			void write(const char* data, size_t size);
 			void writestring(const char* data);
-		private:
 			void initialize(void);
+			void move_cursor(size_t x, size_t y);
 			void flush_buffer(void);
+		private:
 			void putentryat(char c, uint8_t color, size_t x, size_t y);
 	};
-	static Console kconsole;
+
+	extern Console kconsole;
 }

@@ -22,7 +22,7 @@ namespace Devices {
 		return inb(port + 5) & 0x20;
 	}
 
-	void SerialConsole::putchar(char a) {
+	void SerialConsole::putchar(unsigned char a) {
 		while (is_transmit_empty() == 0);
 		outb(port, a);
 	}

@@ -15,7 +15,7 @@ namespace Devices {
 			static bool initialized;
 
 			void set_color(uint8_t color);
-			void putchar(char c);
+			void putchar(unsigned char c);
 			void write(const char* data, size_t size);
 			void writestring(const char* data);
 

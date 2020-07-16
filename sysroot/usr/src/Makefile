@@ -27,16 +27,16 @@ OUT_DIR			= $(SYSROOT)/boot
 
 VPATH			= $(COMMON_DIR):$(ARCH):$(DRIVERS_DIR)
 
-CROSS_BIN		= ../../../cross/bin
-CC				= $(CROSS_BIN)/i686-elf-gcc
-CXX				= $(CROSS_BIN)/i686-elf-g++
-AS				= $(CROSS_BIN)/i686-elf-as
+CROSS_BIN		= 
+CC				= i686-elf-gcc
+CXX				= i686-elf-g++
+AS				= i686-elf-as
 QEMU			= qemu-system-i386
 
 ASFLAGS			=
-COMMONFREEFLAGS	= -g -O2 -Wall -Wextra -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith -Wno-write-strings
-CFREEFLAGS		= $(COMMONFREEFLAGS) -std=gnu99
-CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++14 -fno-exceptions -fno-rtti
+COMMONFREEFLAGS	= -g -O0 -Wall -Wextra -pedantic -ffreestanding -I$(SRC_DIR) -I$(SRC_DIR)/drivers -I$(SRC_DIR)/common -I$(SRC_DIR)/arch/$(ARCHITECTURE) -Wno-pointer-arith -Wno-write-strings -fno-threadsafe-statics
+CFREEFLAGS		= $(COMMONFREEFLAGS) -std=c17
+CXXFREEFLAGS	= $(COMMONFREEFLAGS) -std=c++17 -fno-exceptions -fno-rtti
 
 MKDIR_MSG		= " MKDIR	"
 AS_MSG			= " AS	"
@@ -56,7 +56,7 @@ OUTPUT_NAME		= $(OUT_DIR)/myos.bin
 
 OBJS_K	= $(patsubst %.o,$(OBJ_DIR)/%.o,$(OBJS))
 
-all: dirs image userspace test
+all: dirs image test
 
 dirs: $(OBJ_DIR)/ $(OUT_DIR)/
 

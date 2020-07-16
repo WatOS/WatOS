@@ -12,7 +12,7 @@ namespace Devices {
 		terminal_row = 0;
 		terminal_column = 0;
 		terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-		terminal_buffer = (uint16_t *) malloc(VGA_HEIGHT*VGA_WIDTH);
+		terminal_buffer = (uint16_t *) calloc(VGA_HEIGHT*VGA_WIDTH, sizeof(uint16_t));
 		for (size_t y = 0; y < VGA_HEIGHT; y++) {
 			for (size_t x = 0; x < VGA_WIDTH; x++) {
 				const size_t index = y * VGA_WIDTH + x;
@@ -22,8 +22,18 @@ namespace Devices {
 		flush_buffer();
 	}
 
+	void Console::move_cursor(size_t x, size_t y) {
+		const size_t pos = y * VGA_WIDTH + x;
+
+		outb(0x3D4, 0x0F);
+		outb(0x3D5, (uint8_t) (pos & 0xFF));
+		outb(0x3D4, 0x0E);
+		outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+	}
+
 	void Console::flush_buffer(void) {
-		memcpy((void *) VGA_ENTRY_POINT, terminal_buffer, VGA_WIDTH*VGA_HEIGHT);
+		memcpy((void *) VGA_ENTRY_POINT, terminal_buffer, VGA_WIDTH*VGA_HEIGHT * sizeof(uint16_t));
+		move_cursor(terminal_column, terminal_row);
 	}
 
 	void Console::set_color(uint8_t color) {
@@ -33,33 +43,41 @@ namespace Devices {
 	void Console::putentryat(char c, uint8_t color, size_t x, size_t y) {
 		const size_t index = y * VGA_WIDTH + x;
 		terminal_buffer[index] = vga_entry(c, color);
-		flush_buffer();
 	}
 
-	void Console::putchar(char c) {
+	void Console::putchar_buf(char c) {
 		if (c == '\n') {
-			if (++terminal_row == VGA_HEIGHT) {
-				memcpy(VGA_ENTRY_POINT, VGA_ENTRY_POINT + VGA_WIDTH, VGA_WIDTH * (VGA_HEIGHT - 1));
+			if (terminal_row + 1 >= VGA_HEIGHT) {
+				memcpy(terminal_buffer,
+						terminal_buffer + VGA_WIDTH,
+						VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t));
+			} else {
+				terminal_row++;
 			}
 			terminal_column = 0;
 			return;
 		}
 		putentryat(c, terminal_color, terminal_column, terminal_row);
 		if (++terminal_column == VGA_WIDTH) {
-			terminal_column = 0;
-			if (++terminal_row == VGA_HEIGHT)
-				terminal_row = 0;
+			putchar('\n');
 		}
+	}
+
+	void Console::putchar(char c) {
+		putchar_buf(c);
 		flush_buffer();
 	}
 
 	void Console::write(const char* data, size_t size) {
 		for (size_t i = 0; i < size; i++)
-			putchar(data[i]);
+			putchar_buf(data[i]);
 		flush_buffer();
 	}
 
 	void Console::writestring(const char* data) {
 		write(data, strlen(data));
 	}
+
+
+	Console kconsole;
 }
